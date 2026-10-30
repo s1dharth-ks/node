@@ -7,7 +7,7 @@ const app = http.createServer((req,res)=>{
     if(pathname === "/"){
         res.writeHead(200,{"content-type": "text/html"})
         res.end(fs.readFileSync("../client/index.html"))
-    }else if(pathname === "/index.js"){
+    }else if(pathname === "/indexjs"){
         res.writeHead(200,{"content-type":"text/html"})
         res.end(fs.readFileSync("../client/index.js"))
     }
