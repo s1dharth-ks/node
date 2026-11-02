@@ -40,4 +40,27 @@
             background-color: #f1f5fb;
         }
 
+        a.add-student {
+            display: inline-block;
+            background-color: #263b5e;
+            color: white;
+            padding: 12px 22px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        input{
+            border: none;
+            font-size: 20px;
+            color: #050505;
+            font-weight:bold;
+        }
+
+        a.add-student:hover {
+            background-color: #3b5998;
+        }
   
