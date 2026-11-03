@@ -4,6 +4,7 @@ const fs = require("fs")
 const queryString = require("querystring")
 const {MongoClient,ObjectId} = require("mongodb")
 const { error } = require("console")
+const { json, text } = require("stream/consumers")
 const client = new MongoClient( "mongodb://127.0.0.1:27017")
 const db = client.db("Data")
 const collection = db.collection("students")
@@ -13,6 +14,7 @@ const collection = db.collection("students")
 const server = http.createServer(async(req,res)=>{
     const newUrl = url.parse(req.url)
     if(newUrl.pathname === "/"){
+        // console.log(body);
         res.writeHead(200,{"content-type":"text/html"})
         res.end(fs.readFileSync("../client/index.html"))
         
@@ -73,6 +75,28 @@ const server = http.createServer(async(req,res)=>{
             await collection.deleteOne({_id})
             res.writeHead(200,{"content-type":"text/plain"})
             res.end("success")
+        })
+    }
+
+    if(newUrl.pathname === "/updatestudent" && req.method == "PUT"){
+        let body = ""
+        req.on("data",(chunks)=>{
+            body += chunks.toString()
+        })
+        
+        
+        req.on("end",async()=>{
+            
+            const {name,roll,age,id} =  JSON.parse(body)
+            const _id = new ObjectId(id)
+            try{
+                await collection.updateOne({_id},{$set:{name,roll,age}})
+                res.writeHead(200,{"content-type":"text/plain"})
+                res.end("success")
+            } catch (error){
+                res.writeHead(501,{"content-type":"text/plain"})
+                res.end("server error")
+            }
         })
     }
     
